@@ -17,6 +17,7 @@ lines = []
 for line in f:
 	if line.strip().startswith('<content'):
 		lines.append(line.strip())
+f.close()
 
 print (lines[0])
 
@@ -35,5 +36,12 @@ for path in paths:
 			if file.endswith(path.split('/')[len(path.split('/'))-1]):
 				paths_def.append(os.path.join(root, file))
 
+image_entries = []
 for p in paths_def:
 	print (p)
+	f = open(p, 'r')
+	for line in f:
+		if line.strip().startswith('<img'):
+			image_entries.append(line.strip())
+			print (line.strip())
+
