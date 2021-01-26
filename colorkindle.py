@@ -41,7 +41,7 @@ for p in paths_def:
 	print (p)
 	f = open(p, 'r')
 	for line in f:
-		if line.strip().startswith('<img'):
+		if '<img' in line.strip():
 			image_entries.append(line.strip())
 			print (line.strip())
 
