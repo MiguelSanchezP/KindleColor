@@ -45,3 +45,7 @@ for p in paths_def:
 			image_entries.append(line.strip())
 			print (line.strip())
 
+image_paths = []
+for i in image_entries:
+	image_paths.append(i.split('src="')[1].split('"')[0])
+	print (i.split('src="')[1].split('"')[0])
