@@ -49,3 +49,15 @@ image_paths = []
 for i in image_entries:
 	image_paths.append(i.split('src="')[1].split('"')[0])
 	print (i.split('src="')[1].split('"')[0])
+
+final_image_paths = []
+for i in range(len(image_paths)):
+	if (i+1) < len (image_paths):
+		if image_paths[i] == image_paths[i+1]:
+			continue
+		else:
+			final_image_paths.append(image_paths[i])
+			print (image_paths[i])
+	else:
+		final_image_paths.append(image_paths[i])
+		print (image_paths[i])
