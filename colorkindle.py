@@ -13,7 +13,6 @@ print (ncx_file)
 f = open(ncx_file, 'r')
 
 lines = []
-
 for line in f:
 	if line.strip().startswith('<content'):
 		lines.append(line.strip())
@@ -42,13 +41,13 @@ for p in paths_def:
 	f = open(p, 'r')
 	for line in f:
 		if '<img' in line.strip():
-			image_entries.append(line.strip())
+			image_entries.append([p, line.strip()])
 			print (line.strip())
 
 image_paths = []
 for i in image_entries:
-	image_paths.append(i.split('src="')[1].split('"')[0])
-	print (i.split('src="')[1].split('"')[0])
+	image_paths.append(i[1].split('src="')[1].split('"')[0])
+	print (i[1].split('src="')[1].split('"')[0])
 
 final_image_paths = []
 for i in range(len(image_paths)):
@@ -56,8 +55,9 @@ for i in range(len(image_paths)):
 		if image_paths[i] == image_paths[i+1]:
 			continue
 		else:
-			final_image_paths.append(image_paths[i])
-			print (image_paths[i])
+			final_image_paths.append(image_entries[i])
 	else:
-		final_image_paths.append(image_paths[i])
-		print (image_paths[i])
+		final_image_paths.append(image_entries[i])
+
+for fip in final_image_paths:
+	print (fip)
