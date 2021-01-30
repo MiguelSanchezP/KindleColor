@@ -65,8 +65,18 @@ for i in range(len(image_paths)):
 	else:
 		final_image_paths.append(image_entries[i][0])
 
+final_image_entries = []
+for i in range(len(image_entries)):
+	if (i+1) < len(image_entries):
+		if image_entries[i][1].split('src="')[1].split('"')[0] == image_entries[i+1][1].split('src="')[1].split('"')[0]:
+			continue
+		else:
+			final_image_entries.append(image_entries[i][1])
+	else:
+		final_image_entries.append(image_entries[i][1])
+
 j=0
-#print (image_entries)
+#print (final_image_entries)
 #print ('----------------------------------------------')
 
 for i in range(len(final_image_paths)):
@@ -81,8 +91,8 @@ for i in range(len(final_image_paths)):
 #	print ('EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE')
 	for line in file_lines:
 		f.write(line)
-		if j < len(image_entries):
-			if line == image_entries[j][1]:
+		if j < len(final_image_entries):
+			if line == final_image_entries[j]:
 				f.write('ATTENTION. HERE GOES A CAPTION :)\n')
 				j = j+1
 	f.close()
