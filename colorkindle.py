@@ -78,6 +78,12 @@ for i in range(len(image_entries)):
 j=0
 #print (final_image_entries)
 #print ('----------------------------------------------')
+path = "/".join(final_image_paths[0].split('/')[0:(len(final_image_paths[0].split('/'))-1)]) + "/qrcodes.xhtml"
+#print (path)
+
+f2 = open (path, 'w+')
+f2.write ("This is the new file\n\n")
+
 
 for i in range(len(final_image_paths)):
 #	print ('Path to open: ' + final_image_paths[i])
@@ -93,7 +99,9 @@ for i in range(len(final_image_paths)):
 		f.write(line)
 		if j < len(final_image_entries):
 			if line == final_image_entries[j]:
-				f.write('ATTENTION. HERE GOES A CAPTION :)\n')
+				f.write('<p><sup><a href="qrcodes.xhtml#picture' + str(j) + '" id="picture' + str(j) + '">qr</a></sup></p>\n')
+				f2.write('adding some super cool stuff in here\n')
 				j = j+1
 	f.close()
 
+f2.close()
