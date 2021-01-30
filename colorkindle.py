@@ -8,7 +8,7 @@ for root, dirs, files in os.walk('.'):
 		if file.endswith('.ncx'):
 			ncx_file = os.path.join(root, file)
 
-print (ncx_file)
+#print (ncx_file)
 
 f = open(ncx_file, 'r')
 
@@ -18,14 +18,14 @@ for line in f:
 		lines.append(line.strip())
 f.close()
 
-print (lines[0])
+#print (lines[0])
 
 paths = []
 
 for line in lines:
 	paths.append(line.split('"')[1])
 
-print (paths)
+#print (paths)
 
 paths_def = []
 
@@ -37,17 +37,23 @@ for path in paths:
 
 image_entries = []
 for p in paths_def:
-	print (p)
+#	print ('-------------------------------------------------------------------')
+#	print (p)
+#	print ('-------------------------------------------------------------------')
 	f = open(p, 'r')
-	for line in f:
-		if '<img' in line.strip():
-			image_entries.append([p, line.strip()])
-			print (line.strip())
+	lines= f.readlines()
+	for line in lines: #f:
+#		print (line)
+		if '<img' in line:
+#			print ('here')
+			image_entries.append([p, line])
+#			print (line)
+	f.close()
 
 image_paths = []
 for i in image_entries:
 	image_paths.append(i[1].split('src="')[1].split('"')[0])
-	print (i[1].split('src="')[1].split('"')[0])
+#	print (i[1].split('src="')[1].split('"')[0])
 
 final_image_paths = []
 for i in range(len(image_paths)):
@@ -55,9 +61,29 @@ for i in range(len(image_paths)):
 		if image_paths[i] == image_paths[i+1]:
 			continue
 		else:
-			final_image_paths.append(image_entries[i])
+			final_image_paths.append(image_entries[i][0])
 	else:
-		final_image_paths.append(image_entries[i])
+		final_image_paths.append(image_entries[i][0])
 
-for fip in final_image_paths:
-	print (fip)
+j=0
+#print (image_entries)
+#print ('----------------------------------------------')
+
+for i in range(len(final_image_paths)):
+#	print ('Path to open: ' + final_image_paths[i])
+	f = open(final_image_paths[i], 'r')
+#	file_lines = []
+	file_lines = f.readlines()
+	f.close()
+	f = open(final_image_paths[i], 'w')
+#	j = 0
+#	print (file_lines)
+#	print ('EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE')
+	for line in file_lines:
+		f.write(line)
+		if j < len(image_entries):
+			if line == image_entries[j][1]:
+				f.write('ATTENTION. HERE GOES A CAPTION :)\n')
+				j = j+1
+	f.close()
+
