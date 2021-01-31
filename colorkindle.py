@@ -78,19 +78,19 @@ for i in range(len(image_entries)):
 j=0
 #print (final_image_entries)
 #print ('----------------------------------------------')
-path = "/".join(final_image_paths[0].split('/')[0:(len(final_image_paths[0].split('/'))-1)]) + "/qrcodes.xhtml"
+path = "/".join(final_image_paths[0].split('/')[0:(len(final_image_paths[0].split('/'))-1)])
 #print (path)
 f = open (final_image_paths[0], 'r')
 head = f.readlines()
 f.close()
-f2 = open (path, 'w+')
+f2 = open (path + "/qrcodes.xhtml", 'w+')
 i = 0
 while not '</head>' in head[i]:
 	f2.write(head[i])
 	i = i+1
 f2.write ('</head>\n\n')
 f2.write ('<body>\n')
-# create the folder
+os.mkdir (path + "/qrcodes/")
 for i in range(len(final_image_paths)):
 #	print ('Path to open: ' + final_image_paths[i])
 	f = open(final_image_paths[i], 'r')
@@ -105,9 +105,14 @@ for i in range(len(final_image_paths)):
 		f.write(line)
 		if j < len(final_image_entries):
 			if line == final_image_entries[j]:
+#				print (final_image_paths[i])
 				filename = final_image_paths[i].split('/')[len(final_image_paths[i].split('/'))-1]
-				f.write('<p><sup><a href="qrcodes.xhtml#picture' + str(j) + '" id="picture' + str(j) + '">qr</a></sup></p>\n')
-				f2.write('<p><a href="' + filename + '#picture' + str(j) + '" id="picture' + str(j) + '">back</a><img src="qrcodes/picture' + str(j) + '"/></p>\n')
+				image = line.split('src="')[1].split('"')[0].split('/')[len(line.split('src="')[1].split('"')[0].split('/'))-1]
+#				print (image)
+				f.write('<p><sup><a href="qrcodes.xhtml#' + image + '" id="' + image + '">qr</a></sup></p>\n')
+				f2.write('<p><a href="' + filename + '#' + image + '" id="' + image + '">back</a><img src="qrcodes/' + image + '.png"/></p>\n')
+				gqr = qrcode.make('miguelsanchez.ddns.net/book/'+image)
+				gqr.save(path+'/qrcodes/'+image+'.png')
 				j = j+1
 	f.close()
 f2.write ('</body>\n')
