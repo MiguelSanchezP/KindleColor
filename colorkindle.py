@@ -80,11 +80,16 @@ j=0
 #print ('----------------------------------------------')
 path = "/".join(final_image_paths[0].split('/')[0:(len(final_image_paths[0].split('/'))-1)]) + "/qrcodes.xhtml"
 #print (path)
-
+f = open (final_image_paths[0], 'r')
+head = f.readlines()
+f.close()
 f2 = open (path, 'w+')
-f2.write ("This is the new file\n\n")
-
-
+i = 0
+while not '</head>' in head[i]:
+	f2.write(head[i])
+	i = i+1
+f2.write ('</head>\n\n')
+f2.write ('<body>\n')
 for i in range(len(final_image_paths)):
 #	print ('Path to open: ' + final_image_paths[i])
 	f = open(final_image_paths[i], 'r')
