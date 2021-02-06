@@ -1,3 +1,8 @@
+#Copy files to remote filename
+#os.subprocess
+#Make symbolic link
+#zip and unzip automatically
+
 import os
 import qrcode
 
