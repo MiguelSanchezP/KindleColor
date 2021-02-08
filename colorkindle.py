@@ -1,10 +1,15 @@
 #Copy files to remote filename
-#os.subprocess
+#subprocess
 #Make symbolic link
 #zip and unzip automatically
 
 import os
 import qrcode
+import subprocess
+
+path = input ('Add the relative path (from this location) to the book: ./')
+print ('\nExtract the book contents')
+subprocess.call('unzip -d tmp ./' + path, shell=True)
 
 ncx_file = ''
 
