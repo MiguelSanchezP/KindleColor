@@ -105,3 +105,6 @@ for i in range(len(final_image_paths)):
 f2.write ('</body>\n')
 f2.write ('</html>')
 f2.close()
+print ('Zip back the contents')
+subprocess.call('zip -X -r ./tmp/mimetype ./tmp/* newbook.epub', shell=True)
+
