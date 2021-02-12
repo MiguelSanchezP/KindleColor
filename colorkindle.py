@@ -106,5 +106,5 @@ f2.write ('</body>\n')
 f2.write ('</html>')
 f2.close()
 print ('Zip back the contents')
-subprocess.call('zip -X -r ./tmp/mimetype ./tmp/* newbook.epub', shell=True)
+subprocess.call('zip -X -r newbook.epub ./tmp/mimetype ./tmp/*', shell=True)
 
