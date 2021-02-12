@@ -1,11 +1,7 @@
-#Copy files to remote filename
-#subprocess
-#Make symbolic link
-#zip and unzip automatically
-
 import os
 import qrcode
 import subprocess
+import shutil
 
 path = input ('Add the relative path (from this location) to the book: ./')
 print ('\nExtract the book contents')
@@ -105,6 +101,7 @@ for i in range(len(final_image_paths)):
 f2.write ('</body>\n')
 f2.write ('</html>')
 f2.close()
+new_book_name = input ('Write the name of the book to export: ')
 print ('Zip back the contents')
-subprocess.call('zip -X -r newbook.epub ./tmp/mimetype ./tmp/*', shell=True)
-
+subprocess.call('zip -X -r ' + new_book_name + ' ./tmp/mimetype ./tmp/*', shell=True)
+shutil.rmtree('./tmp/')
