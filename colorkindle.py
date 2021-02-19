@@ -2,6 +2,9 @@ import os
 import qrcode
 import subprocess
 import shutil
+from datetime import datetime
+
+current_date = datetime.now().strftime('%S%M%H%d%m%Y')
 
 path = input ('Add the relative path (from this location) to the book: ./')
 print ('\nExtract the book contents')
@@ -70,6 +73,7 @@ for i in range(len(image_entries)):
 
 j=0
 path = "/".join(final_image_paths[0].split('/')[0:(len(final_image_paths[0].split('/'))-1)])
+print (path)
 f = open (final_image_paths[0], 'r')
 head = f.readlines()
 f.close()
@@ -94,7 +98,7 @@ for i in range(len(final_image_paths)):
 				image = line.split('src="')[1].split('"')[0].split('/')[len(line.split('src="')[1].split('"')[0].split('/'))-1]
 				f.write('<p><sup><a href="qrcodes.xhtml#' + image + '" id="' + image + '">qr</a></sup></p>\n')
 				f2.write('<p><a href="' + filename + '#' + image + '" id="' + image + '">back</a><img src="qrcodes/' + image + '.png"/></p>\n')
-				gqr = qrcode.make('miguelsanchez.ddns.net/book/'+image)
+				gqr = qrcode.make('domain/kindleimages/'+ current_date + '/' + image)
 				gqr.save(path+'/qrcodes/'+image+'.png')
 				j = j+1
 	f.close()
@@ -104,4 +108,13 @@ f2.close()
 new_book_name = input ('Write the name of the book to export: ')
 print ('Zip back the contents')
 subprocess.call('zip -X -r ' + new_book_name + ' ./tmp/mimetype ./tmp/*', shell=True)
+print ('Upload the contents to the server')
+subprocess.call('find . -name ' + image + ' > .output.txt', shell=True)
+f = open('.output.txt', 'r')
+image_directory = ''
+for line in f:
+	image_directory = '/'.join(line.split('/')[0:len(line.split('/'))-1])
+f.close()
+subprocess.call('ssh alias@server -t "mkdir /home/user/BookUploads/' + current_date + '/"', shell=True)
+subprocess.call('scp -r ' + image_directory + '/* alias@server:/home/user/BookUploads/' + current_date + '/', shell=True)
 shutil.rmtree('./tmp/')
