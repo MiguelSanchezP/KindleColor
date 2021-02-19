@@ -9,7 +9,7 @@ subprocess.call('unzip -d tmp ./' + path, shell=True)
 
 ncx_file = ''
 
-for root, dirs, files in os.walk('.'):
+for root, dirs, files in os.walk('./tmp'):
 	for file in files:
 		if file.endswith('.ncx'):
 			ncx_file = os.path.join(root, file)
@@ -30,7 +30,7 @@ for line in lines:
 paths_def = []
 
 for path in paths:
-	for root, dirs, files in os.walk('.'):
+	for root, dirs, files in os.walk('./tmp'):
 		for file in files:
 			if file.endswith(path.split('/')[len(path.split('/'))-1]):
 				paths_def.append(os.path.join(root, file))
