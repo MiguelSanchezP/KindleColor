@@ -72,6 +72,7 @@ for i in range(len(image_entries)):
 		final_image_entries.append(image_entries[i][1])
 
 j=0
+print (final_image_paths[0])
 path = "/".join(final_image_paths[0].split('/')[0:(len(final_image_paths[0].split('/'))-1)])
 f = open (final_image_paths[0], 'r')
 head = f.readlines()
@@ -114,7 +115,7 @@ image_directory = ''
 for line in f:
 	image_directory = '/'.join(line.split('/')[0:len(line.split('/'))-1])
 f.close()
-subprocess.call('ssh alias@server -t "mkdir /home/user/BookUploads/' + current_date + '/"', shell=True)
-subprocess.call('scp -r ' + image_directory + '/* alias@server:/home/user/BookUploads/' + current_date + '/', shell=True)
+subprocess.call('ssh alias@server -t "mkdir /home/user/kindleimages/' + current_date + '/"', shell=True)
+subprocess.call('scp -r ' + image_directory + '/* alias@server:/home/user/kindleimages/' + current_date + '/', shell=True)
 shutil.rmtree('./tmp/')
 os.remove('.output.txt')
