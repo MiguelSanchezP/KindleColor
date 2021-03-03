@@ -6,6 +6,9 @@ from datetime import datetime
 
 current_date = datetime.now().strftime('%S%M%H%d%m%Y')
 
+ssh_alias = 'ALIAS'
+domain_name = 'DOMAIN'
+remote_username = 'USERNAME'
 path = input ('Add the relative path (from this location) to the book: ./')
 print ('\nExtract the book contents')
 subprocess.call('unzip -d tmp ./' + path, shell=True)
@@ -98,7 +101,7 @@ for i in range(len(final_image_paths)):
 				image = line.split('src="')[1].split('"')[0].split('/')[len(line.split('src="')[1].split('"')[0].split('/'))-1]
 				f.write('<p><sup><a href="qrcodes.xhtml#' + image + '" id="' + image + '">qr</a></sup></p>\n')
 				f2.write('<p><a href="' + filename + '#' + image + '" id="' + image + '">back</a><img src="qrcodes/' + image + '.png"/></p>\n')
-				gqr = qrcode.make('domain/kindleimages/'+ current_date + '/' + image)
+				gqr = qrcode.make(domain_name+'/kindleimages/'+ current_date + '/' + image)
 				gqr.save(path+'/qrcodes/'+image+'.png')
 				j = j+1
 	f.close()
@@ -115,7 +118,7 @@ image_directory = ''
 for line in f:
 	image_directory = '/'.join(line.split('/')[0:len(line.split('/'))-1])
 f.close()
-subprocess.call('ssh alias@server -t "mkdir /home/user/kindleimages/' + current_date + '/"', shell=True)
-subprocess.call('scp -r ' + image_directory + '/* alias@server:/home/user/kindleimages/' + current_date + '/', shell=True)
+subprocess.call('ssh ' + ssh_alias + ' -t "mkdir /home/' + remote_username + '/kindleimages/' + current_date + '/"', shell=True)
+subprocess.call('scp -r ' + image_directory + '/* ' + ssh_alias + ':/home/' + remote_username + '/kindleimages/' + current_date + '/', shell=True)
 shutil.rmtree('./tmp/')
 os.remove('.output.txt')
